@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BakeMe</string>
+    <string name="no_recipes">No recipes</string>
+    <string name="no_network">No internet connection</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
+    <string name="add_to_widget">Add to widget</string>
+    <string name="no_recipe">No recipe selected</string>
+
+    <plurals name="number_of_ingredients">
+        <item quantity="zero">No ingredients</item>
+        <item quantity="one">1 ingredient</item>
+        <item quantity="other">%d ingredients</item>
+    </plurals>
+</resources>
