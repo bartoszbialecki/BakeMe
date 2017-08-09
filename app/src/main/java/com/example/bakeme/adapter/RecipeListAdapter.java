@@ -2,14 +2,17 @@ package com.example.bakeme.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bakeme.R;
 import com.example.bakeme.model.Ingredient;
 import com.example.bakeme.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +97,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
         }
 
         holder.detailTextView.setText(context.getResources().getQuantityString(R.plurals.number_of_ingredients, numberOfIngredients, numberOfIngredients));
+
+        if (!TextUtils.isEmpty(recipe.getImage())) {
+            Picasso.with(context)
+                    .load(recipe.getImage())
+                    .placeholder(R.color.colorPrimary)
+                    .into(holder.imageView);
+        }
     }
 
     @Override
@@ -108,6 +118,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
         TextView recipeNameTextView;
         @BindView(R.id.detail_text_view)
         TextView detailTextView;
+        @BindView(R.id.image_view)
+        ImageView imageView;
 
         private OnItemClickListener mListener;
 

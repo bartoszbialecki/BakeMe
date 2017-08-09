@@ -11,10 +11,9 @@
     card_view:cardElevation="4dp"
     card_view:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/recipe_name_text_view"
@@ -37,6 +36,20 @@
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_below="@+id/recipe_name_text_view"
             tools:text="4 ingredients" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/step_image_view_content_description" />
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
