@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bakeme.R;
@@ -30,6 +31,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +49,8 @@ public class RecipeStepFragment extends Fragment {
     // region VARIABLES
     @BindView(R.id.video_view)
     SimpleExoPlayerView playerView;
+    @BindView(R.id.image_view)
+    ImageView imageView;
     @Nullable @BindView(R.id.description_text_view)
     TextView descriptionTextView;
     @Nullable @BindView(R.id.previous_button)
@@ -112,7 +116,7 @@ public class RecipeStepFragment extends Fragment {
         super.onStart();
 
         if (Util.SDK_INT > 23) {
-            initializePlayer();
+            initializeStepPreview();
         }
     }
 
@@ -125,7 +129,7 @@ public class RecipeStepFragment extends Fragment {
         }
 
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
-            initializePlayer();
+            initializeStepPreview();
         }
     }
 
@@ -251,7 +255,7 @@ public class RecipeStepFragment extends Fragment {
 
         updateUI();
         releasePlayer();
-        initializePlayer();
+        initializeStepPreview();
     }
 
     private void updateUI() {
@@ -275,7 +279,7 @@ public class RecipeStepFragment extends Fragment {
         }
     }
 
-    private void initializePlayer() {
+    private void initializeStepPreview() {
         mPlayer = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getActivity()),
                 new DefaultTrackSelector(), new DefaultLoadControl());
@@ -286,13 +290,14 @@ public class RecipeStepFragment extends Fragment {
         mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
 
         if (mStep != null) {
-            String path = !TextUtils.isEmpty(mStep.getVideoURL()) ? mStep.getVideoURL() : (
-                    !TextUtils.isEmpty(mStep.getThumbnailURL()) ? mStep.getThumbnailURL() : null);
-
-            if (!TextUtils.isEmpty(path)) {
-                Uri uri = Uri.parse(path);
+            if (!TextUtils.isEmpty(mStep.getVideoURL())) {
+                Uri uri = Uri.parse(mStep.getVideoURL());
                 MediaSource mediaSource = buildMediaSource(uri);
                 mPlayer.prepare(mediaSource, true, false);
+            } else if (!TextUtils.isEmpty(mStep.getThumbnailURL())) {
+                Picasso.with(getActivity())
+                        .load(mStep.getThumbnailURL())
+                        .into(imageView);
             }
         }
     }

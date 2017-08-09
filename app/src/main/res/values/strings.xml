@@ -6,6 +6,7 @@
     <string name="steps">Steps</string>
     <string name="add_to_widget">Add to widget</string>
     <string name="no_recipe">No recipe selected</string>
+    <string name="step_image_view_content_description">Step preview</string>
 
     <plurals name="number_of_ingredients">
         <item quantity="zero">No ingredients</item>
