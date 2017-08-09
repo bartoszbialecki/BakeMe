@@ -294,10 +294,14 @@ public class RecipeStepFragment extends Fragment {
                 Uri uri = Uri.parse(mStep.getVideoURL());
                 MediaSource mediaSource = buildMediaSource(uri);
                 mPlayer.prepare(mediaSource, true, false);
+                hideImageView();
+                showPlayerView();
             } else if (!TextUtils.isEmpty(mStep.getThumbnailURL())) {
                 Picasso.with(getActivity())
                         .load(mStep.getThumbnailURL())
                         .into(imageView);
+                hidePlayerView();
+                showImageView();
             }
         }
     }
@@ -324,6 +328,30 @@ public class RecipeStepFragment extends Fragment {
         mPlaybackPosition = mPlayer.getCurrentPosition();
         mCurrentWindow = mPlayer.getCurrentWindowIndex();
         mPlayWhenReady = mPlayer.getPlayWhenReady();
+    }
+
+    private void showImageView() {
+        if (imageView.getVisibility() == View.GONE) {
+            imageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideImageView() {
+        if (imageView.getVisibility() == View.VISIBLE) {
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void showPlayerView() {
+        if (playerView.getVisibility() == View.GONE) {
+            playerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hidePlayerView() {
+        if (playerView.getVisibility() == View.VISIBLE) {
+            playerView.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("InlinedApi")

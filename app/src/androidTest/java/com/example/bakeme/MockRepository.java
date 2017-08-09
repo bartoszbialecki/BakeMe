@@ -13,12 +13,8 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.annotations.NonNull;
 
-/**
- * Created by Bartosz Bialecki on 08.08.2017.
- */
-
 public class MockRepository implements Repository {
-    private List<Recipe> mRecipes;
+    private List<Recipe> mRecipes = new ArrayList<>();
 
     @Override
     public Single<List<Recipe>> getRecipes(boolean forceLoad) {
@@ -33,18 +29,27 @@ public class MockRepository implements Repository {
 
                     List<Ingredient> ingredients = new ArrayList<>();
                     Ingredient ingredient = new Ingredient();
-                    ingredient.setIngredient("cukier");
-                    ingredient.setMeasure("lyzka");
-                    ingredient.setQuantity(1.0);
+                    ingredient.setIngredient("Graham Cracker crumbs");
+                    ingredient.setMeasure("CUP");
+                    ingredient.setQuantity(2.0);
                     ingredients.add(ingredient);
                     recipe.setIngredients(ingredients);
 
                     List<Step> steps = new ArrayList<>();
-                    Step step = new Step();
-                    step.setId(1);
-                    step.setDescription("opis");
-                    step.setShortDescription("krotki opis");
-                    steps.add(step);
+
+                    Step step1 = new Step();
+                    step1.setId(0);
+                    step1.setDescription("Recipe Introduction");
+                    step1.setShortDescription("Recipe Introduction");
+                    step1.setVideoURL("https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
+                    steps.add(step1);
+
+                    Step step2 = new Step();
+                    step2.setId(1);
+                    step2.setDescription("1. Preheat the oven to 350°F. Butter a 9\" deep dish pie pan.");
+                    step2.setShortDescription("Starting prep");
+                    steps.add(step2);
+
                     recipe.setSteps(steps);
 
                     recipes.add(recipe);
