@@ -10,10 +10,9 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
-public class RecipesRepository {
+public class RecipesRepository implements Repository {
     // region VARIABLES
-    private static RecipesRepository sInstance;
-    private List<Recipe> mCahcedRecipes;
+    private List<Recipe> mCachedRecipes;
     private boolean mLoading;
     // endregion
 
@@ -23,18 +22,10 @@ public class RecipesRepository {
     }
     // endregion
 
-    // region PUBLIC METHODS
-    public static RecipesRepository getInstance() {
-        if (sInstance == null) {
-            sInstance = new RecipesRepository();
-        }
-
-        return sInstance;
-    }
-
+    // region REPOSITORY METHODS
     public Single<List<Recipe>> getRecipes(boolean forceLoad) {
-        if (mCahcedRecipes != null && !forceLoad) {
-            return Single.just(mCahcedRecipes);
+        if (mCachedRecipes != null && !forceLoad) {
+            return Single.just(mCachedRecipes);
         }
 
         if (mLoading) {
@@ -49,11 +40,11 @@ public class RecipesRepository {
                     public void accept(@NonNull List<Recipe> recipes) throws Exception {
                         mLoading = false;
 
-                        if (mCahcedRecipes == null) {
-                            mCahcedRecipes = new ArrayList<>();
+                        if (mCachedRecipes == null) {
+                            mCachedRecipes = new ArrayList<>();
                         }
 
-                        mCahcedRecipes.addAll(recipes);
+                        mCachedRecipes.addAll(recipes);
                     }
                 })
                 .doOnError(new Consumer<Throwable>() {
@@ -65,12 +56,12 @@ public class RecipesRepository {
     }
 
     public void refreshList() {
-        mCahcedRecipes = null;
+        mCachedRecipes = null;
     }
 
     public Recipe getRecipe(int recipeId) {
-        if (mCahcedRecipes != null) {
-            for (Recipe recipe : mCahcedRecipes) {
+        if (mCachedRecipes != null) {
+            for (Recipe recipe : mCachedRecipes) {
                 if (recipe.getId() == recipeId) {
                     return recipe;
                 }

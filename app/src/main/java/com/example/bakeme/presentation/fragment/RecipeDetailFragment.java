@@ -20,7 +20,8 @@ import android.view.ViewGroup;
 import com.example.bakeme.R;
 import com.example.bakeme.adapter.RecipeIngredientsAdapter;
 import com.example.bakeme.adapter.RecipeStepsAdapter;
-import com.example.bakeme.data.RecipesRepository;
+import com.example.bakeme.app.App;
+import com.example.bakeme.data.Repository;
 import com.example.bakeme.model.Recipe;
 import com.example.bakeme.model.Step;
 import com.example.bakeme.widget.WidgetManager;
@@ -49,6 +50,7 @@ public class RecipeDetailFragment extends Fragment {
     private OnRecipeStepSelectedListener mListener;
     private int mSelectedStepPosition = -1;
     private WidgetManager mWidgetManager;
+    private Repository mRepository;
     // endregion
 
     // region CONSTRUCTOR
@@ -66,6 +68,8 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mRepository = ((App) getActivity().getApplication()).getRepository();
 
         setHasOptionsMenu(true);
 
@@ -182,7 +186,7 @@ public class RecipeDetailFragment extends Fragment {
                 int recipeId = bundle.getInt(ARG_RECIPE_ID, 0);
 
                 if (recipeId > 0) {
-                    mRecipe = RecipesRepository.getInstance().getRecipe(recipeId);
+                    mRecipe = mRepository.getRecipe(recipeId);
                 }
             }
         }

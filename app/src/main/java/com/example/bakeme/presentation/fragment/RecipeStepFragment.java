@@ -15,7 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bakeme.R;
-import com.example.bakeme.data.RecipesRepository;
+import com.example.bakeme.app.App;
+import com.example.bakeme.data.Repository;
 import com.example.bakeme.model.Recipe;
 import com.example.bakeme.model.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -61,6 +62,7 @@ public class RecipeStepFragment extends Fragment {
     private int mCurrentWindow;
     private long mPlaybackPosition;
     private int mCurrentVisibleStepIndex = 0;
+    private Repository mRepository;
     // endregion
 
     // region CONSTRUCTORS
@@ -73,6 +75,8 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mRepository = ((App) getActivity().getApplication()).getRepository();
 
         initArguments();
     }
@@ -192,7 +196,7 @@ public class RecipeStepFragment extends Fragment {
                 int stepId = bundle.getInt(ARG_STEP_ID, -1);
 
                 if (recipeId > -1 && stepId > -1) {
-                    mRecipe = RecipesRepository.getInstance().getRecipe(recipeId);
+                    mRecipe = mRepository.getRecipe(recipeId);
 
                     int index = 0;
                     for (Step step: mRecipe.getSteps()) {

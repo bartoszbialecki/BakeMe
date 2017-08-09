@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.bakeme.R;
 import com.example.bakeme.adapter.RecipeListAdapter;
-import com.example.bakeme.data.RecipesRepository;
+import com.example.bakeme.app.App;
+import com.example.bakeme.data.Repository;
 import com.example.bakeme.model.Recipe;
 import com.example.bakeme.presentation.fragment.RecipeDetailFragment;
 import com.example.bakeme.util.NetworkUtils;
@@ -50,6 +51,7 @@ public class RecipeListActivity extends AppCompatActivity {
     private GridLayoutManager mLayoutManager;
     private RecipeListAdapter mAdapter;
     private int mCurrentVisiblePosition = -1;
+    private Repository mRepository;
     // endregion
 
     // region LIFE CYCLE METHODS
@@ -66,6 +68,8 @@ public class RecipeListActivity extends AppCompatActivity {
                 mCurrentVisiblePosition = savedInstanceState.getInt(STATE_VISIBLE_POSITION);
             }
         }
+
+        mRepository = ((App) getApplication()).getRepository();
 
         setupActionBar();
         setupUI();
@@ -139,7 +143,7 @@ public class RecipeListActivity extends AppCompatActivity {
             return;
         }
 
-        RecipesRepository.getInstance().getRecipes(forceLoad)
+        mRepository.getRecipes(forceLoad)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Recipe>>() {
@@ -173,7 +177,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         clearList();
 
-        RecipesRepository.getInstance().refreshList();
+        mRepository.refreshList();
         fetchRecipes(true);
     }
 
